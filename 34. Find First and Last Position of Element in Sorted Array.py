@@ -46,7 +46,7 @@ class Solution:
             return [-1, -1]
         if target == nums[mid]:  # 判断刚开始已经找到匹配
             return search(mid, target)
-        while low <= mid <= upper:
+        while low <= upper:
             if target == nums[mid]:  # 判断mid下标是否已经找到target
                 return search(mid, target)  # 搜索target的lower和upper下标
             elif target < nums[mid]:  # 如果target比二分中间值小
@@ -60,4 +60,5 @@ class Solution:
 
 test = Solution()
 ret = test.searchRange([1, 2, 3], 3)
+print(ret)
 pass
