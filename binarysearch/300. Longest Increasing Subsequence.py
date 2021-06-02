@@ -38,7 +38,21 @@ class Solution:
                 这dp[i] = dp[j] + 1
                 """
                 if nums[i] > nums[j]:
-                    dp[i] = max(dp[i], dp[j] + 1)  # 在逐步遍历中找到dp的最大子串
+                    dp[i] = max(dp[i], dp[j] + 1)
+                    """
+                    1.  如果nums[1]和nums[0]能组成增长子串
+                        并且nums[5]和nums[1]能组成增长子串，
+                        那么明显有nums[0]-nums[1]-nums[5]这条增长子串
+                    2.  例如在nums[5]中需要于nums[0]-nums[4]进行对比
+                        nums[5] > nums[0]，因此dp[5] = dp[0] + 1 = 2
+                        nums[5] > nums[1]，因此dp[5] = dp[1] + 1 = 3
+                        nums[5] < nums[2]，跳过
+                        nums[5] < nums[3]，跳过
+                        nums[5] < nums[4]，跳过
+                    3.  在逐步遍历中找到dp的最大子串
+                        上面要用max的原因是因为nums[i - 1]所可以组成的子串不一定是长度最长的
+                        因此我们使用max函数来确保nums[i]接到了最长的子串三
+                    """
         return max(dp)
 
 
