@@ -26,12 +26,12 @@ class Solution:
     def search(self, nums, target: int) -> int:
         lo = 0
         hi = len(nums) - 1
-        while hi >= lo:
+        while hi >= lo:  # 慎重选择截截止条件，一般要循环到数组为空
             mid = (lo + hi) // 2
-            if nums[mid] == target:
+            if nums[mid] == target:  # 找到匹配，注意跳出条件要放在开始
                 return mid
-            elif nums[mid] < target:
+            elif nums[mid] < target:  # 二分点数值小于target，二分点右移
                 lo = mid + 1
-            elif nums[mid] > target:
+            if nums[mid] > target:  # 二分点数值大于target，二分点左移
                 hi = mid - 1
         return -1
