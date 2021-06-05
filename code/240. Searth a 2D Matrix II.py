@@ -119,12 +119,13 @@ class Solution:
             hi = len(data) - 1
             while lo <= hi:
                 mid = (lo + hi) // 2
+                if data[mid] == target:
+                    return True
                 if data[mid] < target:
                     lo = mid + 1
                 elif data[mid] > target:
                     hi = mid - 1
-                elif data[mid] == target:
-                    return True
+
             return False
 
         if not matrix:  # 如果Matrix不存在
