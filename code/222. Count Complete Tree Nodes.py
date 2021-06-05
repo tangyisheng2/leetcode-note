@@ -1,0 +1,56 @@
+"""
+Given the root of a complete binary tree, return the number of the nodes in the tree.
+
+According to Wikipedia, every level, except possibly the last, is completely filled in a complete binary tree, and all nodes in the last level are as far left as possible. It can have between 1 and 2h nodes inclusive at the last level h.
+
+Design an algorithm that runs in less than O(n) time complexity.
+
+Example 1:
+Input: root = [1,2,3,4,5,6]
+Output: 6
+Example 2:
+Input: root = []
+Output: 0
+Example 3:
+
+Input: root = [1]
+Output: 1
+
+Constraints:
+The number of nodes in the tree is in the range [0, 5 * 104].
+0 <= Node.val <= 5 * 104
+The tree is guaranteed to be complete.
+
+
+"""
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+import collections
+
+
+class Solution:
+    def countNodes(self, root) -> int:
+        """
+        BFS
+        :param root: 根节点
+        :return: 孩子数量
+        """
+        if not root:  # 空树
+            return 0
+        count = 1  # 如果不是空树，则至少又一个根节点（root）
+        q = collections.deque()  # 初始化队列
+        q.append(root)  # 根节点入队
+        while q:
+            node = q.popleft()
+            if node.left:  # 左孩子
+                count += 1
+                q.append(node.left)
+            if node.right:  # 右孩子
+                count += 1
+                q.append(node.right)
+        return count
