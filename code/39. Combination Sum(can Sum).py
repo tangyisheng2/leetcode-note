@@ -33,29 +33,93 @@ All elements of candidates are distinct.
 """
 
 
-class Solution:
-    memo = {}
-
-    def combinationSum(self, candidates, target: int):
-        """
-        canSum
-        :param candidates:
-        :param target:
-        :return:
-        """
-        if target in self.memo:
-            return self.memo[target]
-        if target == 0:  # basecase: 0无论有没有candidate都能组成，返回true
-            return True
-        if target < 0:
-            return False
-        for num in candidates:
-            remainder = target - num
-            if self.combinationSum(candidates, remainder):
-                self.memo[target] = True
-                return self.memo[target]
-        self.memo[target] = False
-        return self.memo[target]  # 但尝试了所有解法不成功后返回False
+# class Solution:
+#     memo = {}
+#
+#     def combinationSum(self, candidates, target: int):
+#         """
+#         canSum
+#         :param candidates:
+#         :param target:
+#         :return:
+#         """
+#         if target in self.memo:
+#             return self.memo[target]
+#         if target == 0:  # basecase: 0无论有没有candidate都能组成，返回true
+#             return True
+#         if target < 0:
+#             return False
+#         for num in candidates:
+#             remainder = target - num
+#             if self.combinationSum(candidates, remainder):
+#                 self.memo[target] = True
+#                 return self.memo[target]
+#         self.memo[target] = False
+#         return self.memo[target]  # 但尝试了所有解法不成功后返回False
+#
+#
+# class Solution:
+#     memo = {}
+#     res = []
+#
+#     def combinationSum(self, candidates, target: int):
+#         """
+#         howSum
+#         :param candidates:
+#         :param target:
+#         :return:
+#         """
+#         if target in self.memo:
+#             return self.memo[target]
+#         if target == 0:  # target为0，直接解决
+#             return []
+#         if target < 0:  # target < 0,无解
+#             return None
+#
+#         for num in candidates:
+#             remainder = target - num
+#             remainderResult = self.combinationSum(candidates, remainder)  # 迭代成跟小规模的问题
+#             if remainderResult is not None:  # 如果子节点返回的不是None（说明有解）
+#                 self.res.append(num)  # 在结果中加入num（作为branch）
+#                 self.memo[target] = self.res
+#                 return self.memo[target]  # 将加入num后的数组返回上一层
+#         self.memo[target] = None  # 在遍历完成后都没有结果，说明无解
+#         return self.memo[target]
+#
+#
+# class Solution:
+#     memo = {}
+#     res = []
+#
+#     def combinationSum(self, candidates, target: int):
+#         """
+#         howSum
+#         :param candidates:
+#         :param target:
+#         :return:
+#         """
+#         if target in self.memo:
+#             return self.memo[target]
+#         if target == 0:
+#             return []
+#         if target < 0:
+#             return None
+#
+#         shortestResult = None
+#
+#         for num in candidates:
+#             remainder = target - num
+#             remainderResult = self.combinationSum(candidates, remainder)
+#             self.memo[target] = remainderResult  # 在第一次计算后存入memo
+#             if remainderResult is not None:
+#                 remainderResult.append(num)  # append方法直接修改数组，没有返回值
+#                 combination = remainderResult
+#                 self.memo[target] = combination
+#                 if shortestResult is None or (len(combination) < len(shortestResult)):
+#                     shortestResult = combination
+#
+#         return shortestResult
+import collections
 
 
 class Solution:
@@ -64,62 +128,30 @@ class Solution:
 
     def combinationSum(self, candidates, target: int):
         """
-        howSum
+        allSum
         :param candidates:
         :param target:
-        :return:
+        :return: 二维数组：第一维：所有解的列表；第二维：每个解的数字组合
         """
         if target in self.memo:
             return self.memo[target]
-        if target == 0:  # target为0，直接解决
-            return []
-        if target < 0:  # target < 0,无解
-            return None
-
-        for num in candidates:
-            remainder = target - num
-            remainderResult = self.combinationSum(candidates, remainder)  # 迭代成跟小规模的问题
-            if remainderResult is not None:  # 如果子节点返回的不是None（说明有解）
-                self.res.append(num)  # 在结果中加入num（作为branch）
-                self.memo[target] = self.res
-                return self.memo[target]  # 将加入num后的数组返回上一层
-        self.memo[target] = None  # 在遍历完成后都没有结果，说明无解
-        return self.memo[target]
-
-
-class Solution:
-    memo = {}
-    res = []
-
-    def combinationSum(self, candidates, target: int):
-        """
-        howSum
-        :param candidates:
-        :param target:
-        :return:
-        """
-        if target in self.memo:
-            return self.memo[target]
-        if target == 0:
-            return []
+        if target == 0:  # basecase
+            return [[]]
         if target < 0:
             return None
-
-        shortestResult = None
+        result = None  # 存储当前一层的所有非0的结果
 
         for num in candidates:
             remainder = target - num
-            remainderResult = self.combinationSum(candidates, remainder)
-            self.memo[target] = remainderResult  # 在第一次计算后存入memo
+            remainderResult = self.combinationSum(candidates, remainder)  # 较小尺寸的问题求解，remainderResult为
+            self.memo[target] = remainderResult
             if remainderResult is not None:
-                remainderResult.append(num)  # append方法直接修改数组，没有返回值
-                combination = remainderResult
-                self.memo[target] = combination
-                if shortestResult is None or (len(combination) < len(shortestResult)):
-                    shortestResult = combination
-
-        return shortestResult
-
+                for targetResult in remainderResult:    # 将targetResult中的数组展开
+                    targetResult.append(num)    # 将本层的操作添加到每一个targetResult中
+                    if result is None:  # 将这种非None组合加入这一层的result
+                        result = []
+                    result = result.append(targetResult)  # 将所有处理完的solution存入一个数组，返回给上一层
+        return result
 
 test = Solution()
 ret = test.combinationSum([2, 3], 7)
