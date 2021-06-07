@@ -57,6 +57,70 @@ class Solution:
         self.memo[target] = False
         return self.memo[target]  # 但尝试了所有解法不成功后返回False
 
+
+class Solution:
+    memo = {}
+    res = []
+
+    def combinationSum(self, candidates, target: int):
+        """
+        howSum
+        :param candidates:
+        :param target:
+        :return:
+        """
+        if target in self.memo:
+            return self.memo[target]
+        if target == 0:  # target为0，直接解决
+            return []
+        if target < 0:  # target < 0,无解
+            return None
+
+        for num in candidates:
+            remainder = target - num
+            remainderResult = self.combinationSum(candidates, remainder)  # 迭代成跟小规模的问题
+            if remainderResult is not None:  # 如果子节点返回的不是None（说明有解）
+                self.res.append(num)  # 在结果中加入num（作为branch）
+                self.memo[target] = self.res
+                return self.memo[target]  # 将加入num后的数组返回上一层
+        self.memo[target] = None  # 在遍历完成后都没有结果，说明无解
+        return self.memo[target]
+
+
+class Solution:
+    memo = {}
+    res = []
+
+    def combinationSum(self, candidates, target: int):
+        """
+        howSum
+        :param candidates:
+        :param target:
+        :return:
+        """
+        if target in self.memo:
+            return self.memo[target]
+        if target == 0:
+            return []
+        if target < 0:
+            return None
+
+        shortestResult = None
+
+        for num in candidates:
+            remainder = target - num
+            remainderResult = self.combinationSum(candidates, remainder)
+            self.memo[target] = remainderResult  # 在第一次计算后存入memo
+            if remainderResult is not None:
+                remainderResult.append(num)  # append方法直接修改数组，没有返回值
+                combination = remainderResult
+                self.memo[target] = combination
+                if shortestResult is None or (len(combination) < len(shortestResult)):
+                    shortestResult = combination
+
+        return shortestResult
+
+
 test = Solution()
 ret = test.combinationSum([2, 3], 7)
 print(ret)
