@@ -112,45 +112,45 @@ from typing import List
 
 class Solution:
     def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
-        def BFS(x, y):
-            visited = set()
+        def BFS(x, y, visited):
+
             queue = collections.deque()
             queue.append((x, y))
             visited.add((x, y))
 
             def neighbours(node):
-                node_x, node_y = node
-                for x, y in [(node_x + 1, node_y),
-                             (node_x - 1, node_y),
-                             (node_x, node_y + 1),
-                             (node_x, node_y - 1)]:
-                    if 0 <= x < m and 0 <= y < n and \
-                            heights[x][y] <= heights[node_x][node_y] and \
-                            (x, y) not in visited:
+                x, y = node
+                for neighbour_x, neighbour_y in [(x + 1, y),
+                             (x - 1, y),
+                             (x, y + 1),
+                             (x, y - 1)]:
+                    if 0 <= neighbour_x < m and 0 <= neighbour_y < n and \
+                            heights[neighbour_x][neighbour_y] >= heights[x][y] and \
+                            (neighbour_x, neighbour_y) not in visited:
                         # 检查越界、检查大小、检查是否遍历
-                        yield x, y
+                        # 水往高处流
+                        yield neighbour_x, neighbour_y
 
             while queue:
                 node = queue.popleft()
                 for neighbour_node in neighbours(node):
                     queue.append(neighbour_node)
                     visited.add(neighbour_node)
-            return visited
 
         m, n = len(heights), len(heights[0])
         visited_pacific = set()
         visited_atlantic = set()
         for x in range(m):
-            visited_pacific |= BFS(x, 0)
-            visited_atlantic |= BFS(x, n - 1)
+            BFS(x, 0, visited_pacific)
+            BFS(x, n - 1, visited_atlantic)
         for y in range(n):
-            visited_pacific |= BFS(0, y)
-            visited_atlantic |= BFS(m - 1, y)
-
+            BFS(0, y, visited_pacific)
+            BFS(m - 1, y, visited_atlantic)
         return list(visited_pacific & visited_atlantic)
+
 
 
 test = Solution()
 ret = test.pacificAtlantic(
-    [[1, 2, 2, 3, 5], [3, 2, 3, 4, 4], [2, 4, 5, 3, 1], [6, 7, 1, 4, 5], [5, 1, 1, 2, 4]])
+    [[1, 1], [1, 1], [1, 1]])
 print(ret)
