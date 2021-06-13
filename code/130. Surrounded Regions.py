@@ -25,34 +25,30 @@ class Solution:
 
         queue = collections.deque()
         # visited = set()
-        for i in range(len(board)):
+        for i in range(len(board)): # 所有边界节点入队
             if board[i][0] == "O":
                 queue.append((i, 0))
-                # visited.add((i, 0))
             if board[i][len(board[0]) - 1] == "O":
                 queue.append((i, len(board[0]) - 1))
-                # visited.add((i, len(board[0]) - 1))
         for i in range(len(board[0])):
             if board[0][i] == "O":
                 queue.append((0, i))
-                # visited.add((0, i))
             if board[len(board) - 1][i] == "O":
                 queue.append((len(board) - 1, i))
-                # visited.add((len(board) - 1, i))
 
-        while queue:
+        while queue:    # BFS
             node = queue.popleft()
             if board[node[0]][node[1]] == "O":
-                board[node[0]][node[1]] = "A"
+                board[node[0]][node[1]] = "A"   # 将与边界相连的节点数值改为A（后面会改回来，这里做标记用）
             for ne_node in neighbours(node[0], node[1]):
                 queue.append(ne_node)
 
         for x in range(len(board)):
             for y in range(len(board[0])):
-                if board[x][y] == "A":
+                if board[x][y] == "A":  # "A": 与边界相连的饿节点
                     board[x][y] = "O"
                 else:
-                    board[x][y] = "X"
+                    board[x][y] = "X"   # 不与边界相连的节点置为X
 
         print(board)
 
