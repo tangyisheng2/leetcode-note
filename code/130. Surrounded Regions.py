@@ -7,44 +7,111 @@ class Solution:
         """
         Do not return anything, modify board in-place instead.
         """
+        """
+        解题思路：
+        题目中提到，只有与边界节点相连的节点才是不被"X"包围的节点
+        因此我们从边界节点开始广度有限搜索，搜索所有相邻的节点
+        并将这些节点置为"A"，说明这些节点与边界相连。
+        最后遍历整个board，对所有不是"A"的节点置"X"（因为这些节点没有与边界节点相连）
+        PS. 我们还可以使用visited数组的方式来存储节点（但是runtime稍长）
+        执行用时: 60 ms 47%
+        内存消耗: 18.3 MB 83%
 
+        """
         def neighbours(cur_x, cur_y):
             for ne_x, ne_y in [(cur_x + 1, cur_y), (cur_x - 1, cur_y), (cur_x, cur_y + 1), (cur_x, cur_y - 1)]:
                 if 0 <= ne_x < len(board) and 0 <= ne_y < len(board[0]) and board[ne_x][ne_y] == "O":
                     yield ne_x, ne_y
 
-        def bfs(x, y):
-            queue = collections.deque()
-            queue.append((x, y))
-            visited = set()
-            visited.add((x, y))
-            have_boarder_element = False
-            while queue:
-                node = queue.popleft()
-                cur_x, cur_y = node
-                if cur_x == 0 or cur_x == len(board) - 1 or \
-                        cur_y == 0 or cur_y == len(board[0]) - 1:   # 判断是否有刚好在边界的节点
-                    have_boarder_element = True  # 如果是边界节点则返回所有与边界节点相连的集合
+        queue = collections.deque()
+        # visited = set()
+        for i in range(len(board)):
+            if board[i][0] == "O":
+                queue.append((i, 0))
+                # visited.add((i, 0))
+            if board[i][len(board[0]) - 1] == "O":
+                queue.append((i, len(board[0]) - 1))
+                # visited.add((i, len(board[0]) - 1))
+        for i in range(len(board[0])):
+            if board[0][i] == "O":
+                queue.append((0, i))
+                # visited.add((0, i))
+            if board[len(board) - 1][i] == "O":
+                queue.append((len(board) - 1, i))
+                # visited.add((len(board) - 1, i))
 
-                for node in neighbours(cur_x, cur_y):
-                    if node not in visited:
-                        queue.append(node)
-                        visited.add(node)
-
-            if not have_boarder_element:
-                for node in visited:
-                    board[node[0]][node[1]] = "X"
+        while queue:
+            node = queue.popleft()
+            if board[node[0]][node[1]] == "O":
+                board[node[0]][node[1]] = "A"
+            for ne_node in neighbours(node[0], node[1]):
+                queue.append(ne_node)
 
         for x in range(len(board)):
             for y in range(len(board[0])):
-                if board[x][y] == "O":
-                    bfs(x,y)
+                if board[x][y] == "A":
+                    board[x][y] = "O"
+                else:
+                    board[x][y] = "X"
 
+        print(board)
 
-        pass
+# class Solution:
+#     def solve(self, board: List[List[str]]) -> None:
+#         """
+#         Do not return anything, modify board in-place instead.
+#         """
+#         """
+#         解题思路：
+#         题目中提到，只有与边界节点相连的节点才是不被"X"包围的节点
+#         因此我们从边界节点开始广度有限搜索，搜索所有相邻的节点
+#         并将这些节点置为"A"，说明这些节点与边界相连。
+#         最后遍历整个board，对所有不是"A"的节点置"X"（因为这些节点没有与边界节点相连）
+#         PS. 我们还可以使用visited数组的方式来存储节点
+#         Visited方式：
+#         runtime 68ms 29.10%
+#         memory 18.2MB 82.99%
+#         """
+#
+#         def neighbours(cur_x, cur_y):
+#             for ne_x, ne_y in [(cur_x + 1, cur_y), (cur_x - 1, cur_y), (cur_x, cur_y + 1), (cur_x, cur_y - 1)]:
+#                 if 0 <= ne_x < len(board) and 0 <= ne_y < len(board[0]) and board[ne_x][ne_y] == "O":
+#                     yield ne_x, ne_y
+#
+#         queue = collections.deque()
+#         visited = set()
+#         for i in range(len(board)):
+#             if board[i][0] == "O":
+#                 queue.append((i, 0))
+#                 visited.add((i, 0))
+#             if board[i][len(board[0]) - 1] == "O":
+#                 queue.append((i, len(board[0]) - 1))
+#                 visited.add((i, len(board[0]) - 1))
+#         for i in range(len(board[0])):
+#             if board[0][i] == "O":
+#                 queue.append((0, i))
+#                 visited.add((0, i))
+#             if board[len(board) - 1][i] == "O":
+#                 queue.append((len(board) - 1, i))
+#                 visited.add((len(board) - 1, i))
+#
+#         while queue:
+#             node = queue.popleft()
+#             if board[node[0]][node[1]] == "O" and board[node[0]][node[1]] not in visited:
+#                 visited.add(node)
+#             for ne_node in neighbours(node[0], node[1]):
+#                 if ne_node not in visited:
+#                     queue.append(ne_node)
+#
+#         for x in range(len(board)):
+#             for y in range(len(board[0])):
+#                 if board[x][y] == "O" and (x, y) not in visited:
+#                     board[x][y] = "X"
+#
+#         print(board)
 
 
 test = Solution()
-test.solve([["X","O","X"],["O","X","O"],["X","O","X"]]
-)
+test.solve([["X", "O", "X"], ["O", "X", "O"], ["X", "O", "X"]]
+           )
 # print(ret)
