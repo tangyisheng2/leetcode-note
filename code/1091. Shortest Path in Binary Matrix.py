@@ -40,6 +40,10 @@ class Solution:
                 visited.add((nx, ny))
         return -1  # 尝试所有方式后无法到达
 
+# class Solution:
+#     def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
+#         # todo 双向BFS
+
 
 test = Solution()
 ret = test.shortestPathBinaryMatrix([[0, 1], [1, 0]])
