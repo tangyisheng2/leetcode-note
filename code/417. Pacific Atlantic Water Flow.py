@@ -113,7 +113,13 @@ from typing import List
 class Solution:
     def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
         def BFS(x, y, visited):
-
+            """
+            对所有的边界点进行深度优先搜索
+            :param x: 头节点x坐标
+            :param y: 头节点y坐标
+            :param visited: 此处传入visited数组来避免重复生成，优化效率
+            :return:
+            """
             queue = collections.deque()
             queue.append((x, y))
             visited.add((x, y))
@@ -141,6 +147,7 @@ class Solution:
         visited_pacific = set()
         visited_atlantic = set()
         for x in range(m):
+            # todo 将元素全部入队后一次性进行BFS可以优化效率
             BFS(x, 0, visited_pacific)
             BFS(x, n - 1, visited_atlantic)
         for y in range(n):
