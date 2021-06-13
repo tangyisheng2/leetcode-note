@@ -40,9 +40,9 @@ class Solution:
                 cur_x, cur_y, cnt = queue.popleft()
                 if mat[cur_x][cur_y] == 0:
                     res[x][y] = cnt
-                    break   # 提前剪枝
+                    break   # 提前剪枝，由队列的FIFO特性可知该节点就是离头节点最近的0节点
                 for ne_x, ne_y in neighbours(cur_x, cur_y, visited):
-                    queue.append((ne_x, ne_y, cnt + 1))
+                    queue.append((ne_x, ne_y, cnt + 1)) # 邻居节点的距离比当前节点多一
                     visited.add((ne_x, ne_y))
 
         import numpy
