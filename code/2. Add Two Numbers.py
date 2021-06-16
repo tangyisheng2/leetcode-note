@@ -7,34 +7,38 @@ class ListNode:
 
 class Solution:
     def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
-        l1_stack, l2_stack = [], []
-        l1_res, l2_res = 0, 0
+        """
+        从题目中的ListNode与实际运算的数字反向
+        我们可以使用堆栈数据结构的先入先出特性来将数字反序并进行相加
+        """
+        l1_stack, l2_stack = [], []  # 新建堆栈
+        l1_res, l2_res = 0, 0  # 新建两个变量存储l1, l2用于计算的值
         while l1:
-            l1_stack.append(l1.val)
-            l1 = l1.next
+            l1_stack.append(l1.val)  # l1中元素逐个入栈
+            l1 = l1.next  # l1指针后移
         while l1_stack:
-            l1_res = l1_stack.pop() + l1_res * 10
+            l1_res = l1_stack.pop() + l1_res * 10  # l1栈中元素逐个出栈，并且相加获得l1数字
         while l2:
             l2_stack.append(l2.val)
             l2 = l2.next
         while l2_stack:
             l2_res = l2_stack.pop() + l2_res * 10
 
-        res = l1_res + l2_res
+        res = l1_res + l2_res  # 进行运算
 
-        res = list(str(res))  # 这里将int转为str方便
+        res = list(str(res))  # 这里将运算完成的结果转为str方便拆分成list
         res_stack = []
 
         for i in range(len(res)):
-            res_stack.append(int(res[i]))  # 转换回int
+            res_stack.append(int(res[i]))  # 转换结果入栈，准备倒序处理
 
         res_listnode = ListNode()
         res_listnode_ptr = res_listnode
         while res_stack:
-            num = res_stack.pop()
-            res_listnode_ptr.val = num
-            if res_stack:   # 检测插入完节点之后还有没有多余的元素，如果没有就不需要在新建next域了
-                res_listnode_ptr.next = ListNode()
+            num = res_stack.pop()  # 数组出栈
+            res_listnode_ptr.val = num  # 构造链表
+            if res_stack:  # 检测插入完节点之后还有没有多余的元素，如果没有就不需要在新建next域了
+                res_listnode_ptr.next = ListNode()  # 链接链表的下一个节点
                 res_listnode_ptr = res_listnode_ptr.next
 
         return res_listnode
