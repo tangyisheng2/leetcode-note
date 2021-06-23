@@ -9,7 +9,7 @@ from typing import List
 class Solution:
     memo = {}
 
-    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+    def duck_leetcode(self, s, wordDict) -> bool:
         if s == "":  # basecase
             return True
         if s in self.memo:  # DP memorization
@@ -18,12 +18,16 @@ class Solution:
         for word in wordDict:
             if word in s and s.index(word) == 0:
                 suffix = s.split(word, 1)[1]
-                if self.wordBreak(suffix, wordDict):
+                if self.duck_leetcode(suffix, wordDict):
                     self.memo[suffix] = True
                     return self.memo[suffix]
 
         self.memo[s] = False
         return self.memo[s]
+
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        self.memo = {}
+        return self.duck_leetcode(s, wordDict)
 
 
 test = Solution()
