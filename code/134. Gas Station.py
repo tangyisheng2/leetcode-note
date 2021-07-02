@@ -14,7 +14,8 @@ class Solution:
         :return:
         """
         station_cnt = len(gas)
-        for i in range(station_cnt):
+        i = 0
+        while i < station_cnt:
             oil = gas[i]  # initial oil we have
             for j in range(station_cnt):  # start travel
                 """
@@ -26,10 +27,13 @@ class Solution:
                 """
                 oil -= cost[(i + j) % station_cnt]  # oil after travel
                 if oil < 0:  # if our oil is below zero, we are not gonna make it
+                    i = i + j
+                    # 优化，见：https://leetcode-cn.com/problems/gas-station/solution/jia-you-zhan-by-leetcode-solution/
                     break
                 oil += gas[(i + j + 1) % station_cnt]  # refill oil in the next station
             if oil >= 0:  # if oil is greater than 0 after travel
                 return i  # result found
+            i += 1
         return -1  # else this travel is impossible
 
 
