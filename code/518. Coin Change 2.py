@@ -43,21 +43,44 @@ from typing import List
 #         self.memo = {}
 #         return self.change_memorize(amount, coins)
 
-class Solution:
-    def change(self, amount: int, coins: List[int]) -> int:
-        # https://leetcode-cn.com/problems/coin-change-2/solution/ling-qian-dui-huan-iihe-pa-lou-ti-wen-ti-dao-di-yo/
-        # problem(k,i) = problem(k-1, i) + problem(k, i-k) 即前 k 个硬币凑齐金额 i 的组合数 等于 前 k-1 个硬币凑齐金额 i 的组合数 加上 在原来 i-k
-        # 的基础上使用硬币的组合数。说的更加直白一点，那就是用前 k 的硬币凑齐金额 i ，要分为两种情况开率，一种是没有用前 k-1 个硬币就凑齐了，一种是前面已经凑到了 i-k ，现在就差第 k 个硬币了。
+# class Solution:
+#     def change(self, amount: int, coins: List[int]) -> int:
+#         # https://leetcode-cn.com/problems/coin-change-2/solution/ling-qian-dui-huan-iihe-pa-lou-ti-wen-ti-dao-di-yo/
+#         # problem(k,i) = problem(k-1, i) + problem(k, i-k) 即前 k 个硬币凑齐金额 i 的组合数 等于 前 k-1 个硬币凑齐金额 i 的组合数 加上 在原来 i-k
+#         # 的基础上使用硬币的组合数。说的更加直白一点，那就是用前 k 的硬币凑齐金额 i ，要分为两种情况开率，一种是没有用前 k-1 个硬币就凑齐了，一种是前面已经凑到了 i-k ，现在就差第 k 个硬币了。
+#
+#         dp = [0 for _ in range(amount + 1)]
+#         dp[0] = 1
+#         for coin in coins:  # 注意这两个循环嵌套顺序不同导致求得的结果不同（组合数，排列数
+#             for i in range(len(dp)):
+#                 if i + coin < len(dp):
+#                     dp[i + coin] = dp[i] + dp[i + coin] # 不使用这个coin凑齐的办法个数与使用这个coin凑齐的办法个数
+#         return dp[amount]
 
-        dp = [0 for _ in range(amount + 1)]
-        dp[0] = 1
-        for coin in coins:  # 注意这两个循环嵌套顺序不同导致求得的结果不同（组合数，排列数
-            for i in range(len(dp)):
-                if i + coin < len(dp):
-                    dp[i + coin] = dp[i] + dp[i + coin] # 不使用这个coin凑齐的办法个数与使用这个coin凑齐的办法个数
-        return dp[amount]
+class Solution:
+    def __init__(self):
+        self.memo = {}
+
+    def change(self, amount: int, coins: List[int]) -> int:
+        self.memo = {}
+        return self.dfs(0, amount, coins)
+
+    def dfs(self, cnt, amount, coins):
+        if (cnt, amount) in self.memo:
+            return self.memo[(cnt, amount)]
+        if amount < 0:
+            return 0
+        if amount == 0:
+            return 1
+        res = 0
+        for i in range(cnt, len(coins)):
+            remainder = amount - coins[i]
+            # res += self.dfs(i, remainder, coins)
+            self.memo[(i, remainder)] = self.dfs(i, remainder, coins)
+            res += self.memo[(i, remainder)]
+        return res
 
 
 test = Solution()
-ret = test.change(amount=5, coins=[1, 2, 5])
+ret = test.change(amount=2000, coins=[1, 2, 5])
 print(ret)
