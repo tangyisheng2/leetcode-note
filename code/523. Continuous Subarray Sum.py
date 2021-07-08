@@ -24,18 +24,18 @@ from typing import List
 
 class Solution:
     def checkSubarraySum(self, nums: List[int], k: int) -> bool:
-        modes = set()
-        presum = 0
-        for num in nums:
-            last = presum
-            # 当前前缀和
-            presum += num
-            presum %= k
-            # 同余定理
-            if presum in modes:
-                return True
-            # last是上一个元素的余数，presum是本次的余数
-            modes.add(last)
+        n = len(nums)
+        if n < 2:
+            return False
+        mod_mark = {0: -1}  # 规定 空的前缀的结束下标为−1，由于 空的前缀的 元素和为0，因此在哈希表中存入键值对(0,−1)。
+        mod = 0
+        for i in range(n):
+            mod = (mod + nums[i]) % k
+            if mod in mod_mark:
+                if i - mod_mark[mod] >= 2:
+                    return True
+            else:
+                mod_mark[mod] = i
         return False
 
 
