@@ -150,7 +150,7 @@ class Solution:
                     targetResult.append(num)    # 将本层的操作添加到每一个targetResult中
                     if result is None:  # 将这种非None组合加入这一层的result
                         result = []
-                    result = result.append(targetResult)  # 将所有处理完的solution存入一个数组，返回给上一层
+                    result.append(targetResult)  # 将所有处理完的solution存入一个数组，返回给上一层
         return result
 
 test = Solution()
