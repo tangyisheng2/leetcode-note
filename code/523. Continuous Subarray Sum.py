@@ -24,6 +24,12 @@ from typing import List
 
 class Solution:
     def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+        """
+        同余定理。关联#974
+        :param nums:
+        :param k:
+        :return:
+        """
         n = len(nums)
         if n < 2:
             return False
