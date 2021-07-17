@@ -50,11 +50,11 @@ class Solution:
 
 我们画出Fib()的函数递归调用树，如下图所示：
 
-![image-20210717221215479](C:\Users\tang-\AppData\Roaming\Typora\typora-user-images\image-20210717221215479.png)
+![image-20210717221215479](DP_note.assets/image-20210717221215479.png)
 
 在图中，我们很容易发现有子树存在重复，如蓝色方框框柱的Fib(2)以及红色方框框柱的Fib(3)。既然我们再函数调用过程中发现了重复计算的过程，优化方式也十分简单：在计算过后将计算结果存入字典，并在下一次计算中事先检查字典是否已经有计算结果，如果有，则直接返回。经过以上优化，我们的函数递归调用变成了这样：其中黄色部分的函数计算将直接返回。
 
-![image-20210717222131464](C:\Users\tang-\AppData\Roaming\Typora\typora-user-images\image-20210717222131464.png)
+![image-20210717222131464](DP_note.assets/image-20210717222131464.png)
 
 记忆化之后的代码实现如下：
 
