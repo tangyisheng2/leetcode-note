@@ -26,23 +26,44 @@ Explanation: F(4) = F(3) + F(2) = 2 + 1 = 3.
 """
 
 
-class Solution:
-    memo = {}
+# class Solution:
+#     memo = {}
+#
+#     def fib(self, n: int) -> int:
+#         """
+#         带memo的DP解法
+#         :param n:
+#         :return:
+#         """
+#         if n < 2:   # 特殊情况判定
+#             self.memo[n] = 1
+#             return n
+#         if n in self.memo:
+#             return self.memo[n]
+#
+#         self.memo[n] = self.fib(n - 1) + self.fib(n - 2)
+#         return self.memo[n]
 
+class Solution:
     def fib(self, n: int) -> int:
         """
-        带memo的DP解法
+        DP_table
         :param n:
         :return:
         """
-        if n < 2:   # 特殊情况判定
-            self.memo[n] = 1
-            return n
-        if n in self.memo:
-            return self.memo[n]
+        if n == 0:  # 1. 确定base case
+            return 0
+        if n == 1:
+            return 1
 
-        self.memo[n] = self.fib(n - 1) + self.fib(n - 2)
-        return self.memo[n]
+        dp = [0 for _ in range(n + 1)]  # 建表
+        dp[0] = 0  # 确定初始值
+        dp[1] = 1
+
+        for i in range(2, n + 1):  # 2. 确定会变化的状态
+            dp[i] = dp[i - 1] + dp[i - 2]  # 3. 确定选择，更新DP表
+
+        return dp[n]  # 4. 得到答案
 
 
 test = Solution()
