@@ -7,6 +7,32 @@
 """
 
 
+# class Solution(object):
+#     “”“
+#     DFS暴力解法（超时）
+#     """
+#     def maxScore(self, cardPoints, k):
+#         """
+#         :type cardPoints: List[int]
+#         :type k: int
+#         :rtype: int
+#         """
+#         N = len(cardPoints)
+#         self.memo = {}
+#         return self.dfs(cardPoints, 0, N - 1, k)
+#
+#     def dfs(self, cardPoints, i, j, k):
+#         if k == 0:
+#             return 0
+#         if (i, j) in self.memo:
+#             return self.memo[(i, j)]
+#         removeLeft = cardPoints[i] + self.dfs(cardPoints, i + 1, j, k - 1)
+#         removeRight = cardPoints[j] + self.dfs(cardPoints, i, j - 1, k - 1)
+#         res = max(removeLeft, removeRight)
+#         self.memo[(i, j)] = res
+#         return res
+
+
 class Solution(object):
     def maxScore(self, cardPoints, k):
         """
