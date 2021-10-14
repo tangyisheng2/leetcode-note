@@ -10,7 +10,7 @@ from typing import List
 class Solution:
     """
         作者：LeetCode - Solution
-        链接：https: // leetcode - cn.com / problems / sliding - window - maximum / solution / hua - dong - chuang - kou - zui - da - zhi - by - leetco - ki6m /
+        链接：https://leetcode-cn.com/problems/sliding-window-maximum/solution/hua-dong-chuang-kou-zui-da-zhi-by-leetco-ki6m/
     """
 
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
@@ -25,12 +25,12 @@ class Solution:
 
         ans = [nums[max_queue[0]]]  # 第一个滑动窗口的最大值
 
-        for i in range(k, n):  # 对后面窗口的元素构建队列
+        for i in range(k, n):  # 对后面窗口的元素构建队列，k是进入队列的元素
             while max_queue and nums[i] >= nums[max_queue[-1]]:
                 max_queue.pop()
             max_queue.append(i)
 
-            while nums[max_queue[0]] <= i - k:
+            while max_queue[0] <= i - k:  # 当最大值将被移出窗口（i为当前窗口的右边界，k为窗口宽度）
                 """
                 此时的最大值可能在滑动窗口左边界的左侧，并且随着窗口向右移动，它永远不可能出现在滑动窗口中了。因此我们还需要不断从队首弹出元素，直到队首元素在窗口中为止。
                 """
@@ -38,3 +38,8 @@ class Solution:
             ans.append(nums[max_queue[0]])
 
         return ans
+
+
+test = Solution()
+
+print(test.maxSlidingWindow([1, -1], 1))
