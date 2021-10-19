@@ -43,6 +43,28 @@ class Solution:
         return dfs([], 0, len(nums), used)
 
 
+# New Version
+class Solution2:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        def dfs(nums, used, current_state, ans):
+            if len(current_state) == len(nums):
+                ans.append(current_state[:])
+                return
+
+            for i in range(len(nums)):
+                if not used[i]:
+                    used[i] = True
+                    current_state.append(nums[i])
+                    dfs(nums, used, current_state, ans)
+                    current_state.pop()
+                    used[i] = False
+
+        ans = []
+        used = [False for _ in range(len(nums))]
+        dfs(nums, used, [], ans)
+        return ans
+
+
 if __name__ == '__main__':
     test = Solution()
     print(test.permute([1, 2, 3]))
