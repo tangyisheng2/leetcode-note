@@ -14,7 +14,7 @@ class Solution:
                     ans.append(current_state[:])
                 return
 
-            for i in range(begin_idx, 10):
+            for i in range(begin_idx, 10):  # begin_idx的存在说明这是组合而不是排列
                 if i > target:
                     return
 
