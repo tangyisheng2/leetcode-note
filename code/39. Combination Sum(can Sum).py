@@ -153,6 +153,24 @@ class Solution:
                     result.append(targetResult)  # 将所有处理完的solution存入一个数组，返回给上一层
         return result
 
+# # DFS
+# class Solution:
+#     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+#         def dfs(candidates, start_idx, target, current_stat ,ans):
+#             if target == 0:
+#                 ans.append(current_stat)
+#             if target < 0:
+#                 return
+#
+#             for i in range(start_idx, len(candidates)):
+#                 current_stat.append(candidates[i])
+#                 dfs(candidates, i, target - candidates[i], current_stat[:], ans)
+#                 current_stat.pop()
+#
+#         ans = []
+#         dfs(candidates, 0, target, [], ans)
+#         return ans
+
 test = Solution()
 ret = test.combinationSum([2, 3], 7)
 print(ret)
