@@ -6,24 +6,40 @@
 from typing import List
 
 
+# class Solution:
+#     def combine(self, n: int, k: int) -> List[List[int]]:
+#         def dfs(candidates, solved_number, begin_idx, current_stat, sum_set, ans):
+#             current_sum = sum(current_stat)
+#             if solved_number == k:
+#                 ans.append(current_stat[:])
+#                 sum_set.add(current_sum)
+#                 return
+#
+#             for i in range(begin_idx, len(candidates)):
+#                 current_stat.append(candidates[i])
+#                 dfs(candidates, solved_number + 1, i + 1, current_stat, sum_set, ans)
+#                 current_stat.pop()
+#
+#         candidates = [i for i in range(1, n + 1)]
+#         sum_set = set()
+#         ans = []
+#         dfs(candidates, 0, 0, [], sum_set, ans)
+#         return ans
+
 class Solution:
     def combine(self, n: int, k: int) -> List[List[int]]:
-        def dfs(candidates, solved_number, begin_idx, current_stat, sum_set, ans):
-            current_sum = sum(current_stat)
-            if solved_number == k:
+        def dfs(begin_idx, current_stat, ans):
+            if len(current_stat) == k:
                 ans.append(current_stat[:])
-                sum_set.add(current_sum)
                 return
 
-            for i in range(begin_idx, len(candidates)):
-                current_stat.append(candidates[i])
-                dfs(candidates, solved_number + 1, i + 1, current_stat, sum_set, ans)
+            for i in range(begin_idx, n + 1):   # 增加了这行避免重复搜索
+                current_stat.append(i)
+                dfs(i + 1, current_stat, ans)
                 current_stat.pop()
 
-        candidates = [i for i in range(1, n + 1)]
-        sum_set = set()
         ans = []
-        dfs(candidates, 0, 0, [], sum_set, ans)
+        dfs(1, [], ans)
         return ans
 
 
