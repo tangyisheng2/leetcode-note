@@ -53,14 +53,14 @@ class Trie:
 class Solution:
     def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
         root = Trie()
-        for word in words:
+        for word in words:  # 构建前缀树
             root.insert(word)
 
         def dfs(node, x, y):
-            if board[x][y] not in node.children:
+            if board[x][y] not in node.children:  # 如果节点不在前缀树中
                 return
 
-            ch = board[x][y]
+            ch = board[x][y]  # 如果在前缀树中就移动到下一个节点
             node = node.children[ch]
 
             if node.word != "":  # 检查是否为叶子结点
