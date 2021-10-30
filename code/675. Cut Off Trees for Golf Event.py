@@ -17,10 +17,11 @@ class Solution:
             return -1
 
         # 1. 构建要cut的数的队列
+        # forest[0][0] = 1
         forest_rank = []
         for x in range(m):
             for y in range(n):
-                if forest[x][y] != 0:
+                if forest[x][y] > 1:
                     forest_rank.append((forest[x][y], x, y))
         forest_rank.sort()
 
@@ -50,7 +51,7 @@ class Solution:
         # 3. 遍历拆除所有要拆除的树
         for i in range(len(forest_rank)):
             if i == 0:
-                _, s1, s2 = 0, 0, 0  # 注意第一颗砍的树不在0, 0的情况
+                _, s1, s2 = 0, 0, 0
             else:
                 _, s1, s2 = forest_rank[i - 1]
             _, e1, e2 = forest_rank[i]
@@ -61,10 +62,3 @@ class Solution:
                 return -1
             ans += tmp_ans
         return ans
-
-
-test = Solution()
-ret = test.cutOffTree([[4, 2, 3],
-                       [0, 0, 1],
-                       [7, 6, 5]])
-print(ret)
