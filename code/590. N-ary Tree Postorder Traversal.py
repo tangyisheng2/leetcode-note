@@ -27,3 +27,17 @@ class Solution:
         ans = []
         postorder_dfs(root)
         return ans
+
+    def postorder2(self, root: 'Node') -> List[int]:
+        # https://leetcode-cn.com/problems/n-ary-tree-postorder-traversal/solution/ncha-shu-de-hou-xu-bian-li-by-leetcode/
+        if not root:
+            return []
+        stack = [root]
+        ans = []
+        while stack:
+            node = stack.pop()
+            ans.append(node.val)
+            for child in node.children:  # For
+                stack.append(child)
+
+        return ans[::-1]
