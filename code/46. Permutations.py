@@ -72,17 +72,21 @@ class Solution:
 
         def backtracking():
             if len(state) == len(nums):
+                print(f"Adding {state} to ans")
                 ans.append(state[:])
 
             print(f"Current State:  {state}")
 
-            for num in availiable_nums:
+            for num in list(availiable_nums):
+            # for num in availiable_nums:
+                print(f"Choose {num}, current stat {state}, avail {availiable_nums}")
                 state.append(num)
                 availiable_nums.remove(num)
 
                 backtracking()
                 state.pop()
                 availiable_nums.add(num)
+                print(f"Poping {num} out, current stat: {state}, current avail {availiable_nums}")
                 print(f"Backtracking {state}")
 
         backtracking()
