@@ -7,7 +7,7 @@
       <excludeFolder url="file://$MODULE_DIR$/OA/WeRide_OA13" />
       <excludeFolder url="file://$MODULE_DIR$/OA" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Python 3.10 (leetcode)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">
