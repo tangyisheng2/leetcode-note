@@ -17,7 +17,7 @@ class Codec:
 
     def serialize(self, root):
         """Encodes a tree to a single string.
-
+        Do a pre-order tree traversal, and then append each node
         :type root: TreeNode
         :rtype: str
         """
@@ -25,6 +25,8 @@ class Codec:
         def dfs(node):
             if not node:
                 ans.append("None")
+                # When we have a None node, we append node to mark the node does not exist, and when we deserialize it,
+                # we also check if node is None to skip the branch
                 return
 
             ans.append(str(node.val))
@@ -39,7 +41,8 @@ class Codec:
 
     def deserialize(self, data):
         """Decodes your encoded data to tree.
-
+        Do a pre-order traversal, at the mean time we traverse through each node.
+        When going through each node, we check if the node is none, if yes, we skip that node
         :type data: str
         :rtype: TreeNode
         """
@@ -47,6 +50,7 @@ class Codec:
         def dfs(node):
             """
             This function return the deserialized tree
+
             """
             nonlocal cur_node_cnt
             if not node:
