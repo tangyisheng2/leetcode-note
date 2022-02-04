@@ -34,3 +34,21 @@ class Solution:
 
         dfs_depth(root)
         return self.max_depth
+
+    def diameterOfBinaryTree2(self, root: TreeNode) -> int:
+        def diameter(root):
+            nonlocal ans
+            if not root:
+                return 0
+
+            left = diameter(root.left)
+            right = diameter(root.right)
+            # Inside the subtree, the diameter is 1 + left + right, update the ans
+            diame = 1 + left + right
+            ans = max(ans, diame)
+            # Outside the subtree, the contributed diameter is 1 + max length between left and right
+            return 1 + max(left, right)
+
+        ans = 0
+        diameter(root)
+        return ans - 1
