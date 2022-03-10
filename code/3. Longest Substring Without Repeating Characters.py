@@ -26,7 +26,7 @@ class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
         r = -1  # 右指针刚刚初始化时候需要设置成-1，避免"p"情况下计算出错
         res = 0
-        c_dict = {} # 已经出现的次数
+        c_dict = {}  # 已经出现的次数
         for i, c in enumerate(s):
             if c in c_dict and c_dict[c] > r:
                 """
@@ -40,8 +40,26 @@ class Solution:
                 如果是没有出现的字母，我们把它记录到hashmap，并且更新最大的字串长度
                 """
                 c_dict[c] = i
-                res = max(res, i-r)
+                res = max(res, i - r)
         return res
+
+    def lengthOfLongestSubstring2(self, s: str) -> int:
+        ch_set = set()
+        n = len(s)
+
+        r = 0
+        ans = 0
+
+        for l in range(n):
+            # 左指针
+            while r < n and s[r] not in ch_set:
+                # 对于每个左指针，寻找以该字符串开始的最长不重复字符串
+                ch_set.add(s[r])  # 添加字符串
+                r += 1
+            ans = max(ans, r - l)  # 更新最大长度
+            ch_set.remove(s[l])  # 在左指针移动之前删除ch_set中的数据
+        return ans
+
 
 test = Solution()
 print(test.lengthOfLongestSubstring(s="p"))
