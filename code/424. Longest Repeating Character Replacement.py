@@ -10,7 +10,7 @@ class Solution:
         """
         1. Use 2 pointer to represent the sub-string
         2. Maximize the window, check if the window is valid:
-        2.1 len(s) - max_occurance is our operation needed to modify the substring
+        2.1 len(s) - max_occurrence is our operation needed to modify the substring
         3. if valid, expand the window, else move the window right
         4. when the r pointer reaches the end, the window is the largest window
         """
@@ -21,13 +21,13 @@ class Solution:
 
         l = 0
         r = 0
-        max_occurance = 0
+        max_occurence = 0
 
         while r < n:
             occurance[s[r]] += 1
-            max_occurance = max(max_occurance, occurance[s[r]])  #
+            max_occurence = max(max_occurence, occurance[s[r]])  #
 
-            if r - l + 1 - max_occurance > k:  # Window in not valid
+            if r - l + 1 - max_occurence > k:  # Window in not valid
                 occurance[s[l]] -= 1  # Move the left pointer
                 l += 1
             r += 1
