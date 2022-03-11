@@ -127,9 +127,9 @@ class Solution:
             def neighbours(node):
                 x, y = node
                 for neighbour_x, neighbour_y in [(x + 1, y),
-                             (x - 1, y),
-                             (x, y + 1),
-                             (x, y - 1)]:
+                                                 (x - 1, y),
+                                                 (x, y + 1),
+                                                 (x, y - 1)]:
                     if 0 <= neighbour_x < m and 0 <= neighbour_y < n and \
                             heights[neighbour_x][neighbour_y] >= heights[x][y] and \
                             (neighbour_x, neighbour_y) not in visited:
@@ -155,6 +155,37 @@ class Solution:
             BFS(m - 1, y, visited_atlantic)
         return list(visited_pacific & visited_atlantic)
 
+    def pacificAtlantic2(self, heights: List[List[int]]) -> List[List[int]]:
+        """
+        Do DFS from both pacific and altantic
+        keep track of the visited nodes
+        return the visited nodes that occur in both pacific and altanic
+        """
+
+        def dfs(x, y, visited):
+            """
+            Do Dfs and then add all the visited node into the visited set
+            """
+            visited.add((x, y))
+
+            for nx, ny in [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]:
+                if 0 <= nx < n and 0 <= ny < m and (nx, ny) not in visited and heights[nx][ny] >= heights[x][y]:
+                    dfs(nx, ny, visited)
+
+        n = len(heights)
+        m = len(heights[0])
+
+        pacific = set()
+        altantic = set()
+
+        for x in range(n):
+            for y in range(m):
+                if x == 0 or y == 0:
+                    dfs(x, y, pacific)
+                if x == n - 1 or y == m - 1:
+                    dfs(x, y, altantic)
+
+        return [[x, y] for x, y in pacific & altantic]
 
 
 test = Solution()
