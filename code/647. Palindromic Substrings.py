@@ -40,5 +40,30 @@ class Solution:
                 ans += 1
         return ans
 
+    def countSubstrings2(self, s: str) -> int:
+        def count(idx):
+            """
+            This function counts the number of palindromic substrings center at idx
+            """
+            # The maximun palidrone sub-string length is odd
+            l = idx
+            r = idx
+            ans = 0
+            while l >= 0 and r < len(s) and s[l] == s[r]:
+                ans += 1
+                l -= 1
+                r += 1
+            # The maximun palidrone sub-string length is even
+            l = idx - 1
+            r = idx
+            while l >= 0 and r < len(s) and s[l] == s[r]:
+                ans += 1
+                l -= 1
+                r += 1
+            return ans
+
+        return sum([count(idx) for idx in range(len(s))])
+
+
 test = Solution()
 test.countSubstrings("fdsklf")
