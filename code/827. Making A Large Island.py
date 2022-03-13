@@ -44,17 +44,17 @@ class Solution:
             for j in range(m):
                 if grid[i][j] == 1:
                     visited = set()
-                    dfs(i, j, 0)
-                    island_id += 1
+                    dfs(i, j, 0)  # DFS to find all the connected components
+                    island_id += 1  # Assign a new id for the island
                     max_area = len(visited)  # Count the maximun area
                     for (x, y) in visited:
-                        grid[x][y] = (island_id, max_area)
+                        grid[x][y] = (island_id, max_area)  # Mark the visited node with island id and max area
                     ans = max(ans, max_area)
 
         for i in range(n):
             for j in range(m):
-                if grid[i][j] == 0:
-                    ans = max(ans, fill(i, j))
+                if grid[i][j] == 0:  # If it is possible to fill this block
+                    ans = max(ans, fill(i, j))  # Update the answer
 
         return ans
 
