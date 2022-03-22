@@ -29,3 +29,19 @@ class Solution:
             return dfs(root1.left, root2.left) and dfs(root1.right, root2.right)
 
         return dfs(p, q)
+
+    def isSameTree2(self, p: TreeNode, q: TreeNode) -> bool:
+        """
+        Not the same tree:
+        1. value are different
+        2. struct are different:
+            p has left child while q not
+            q has left child while q not
+        """
+
+        # if (not p and not q) or (p and q and p.val == q. val and self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)):
+        #     return True
+        # return False
+        return True if (not p and not q) or (
+                    p and q and p.val == q.val and self.isSameTree(p.left, q.left) and self.isSameTree(p.right,
+                                                                                                       q.right)) else False
