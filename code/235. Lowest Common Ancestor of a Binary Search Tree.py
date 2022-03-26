@@ -34,3 +34,49 @@ class Solution:
         if not right:
             return left
         return root
+
+    def lowestCommonAncestor2(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        """
+        遍历至节点p和节点q并且记录其路径
+        则pq的LCA是其路径上的最后一个相同的节点
+        """
+
+        def dfs(node, target, cur_path):
+            cur_path.append(node)
+
+            if target.val > node.val:
+                dfs(node.right, target, cur_path)
+            elif target.val < node.val:
+                dfs(node.left, target, cur_path)
+            elif target.val == node.val:
+                return
+
+        p_path = []
+        q_path = []
+
+        dfs(root, p, p_path)
+        dfs(root, q, q_path)
+
+        for i in range(min(len(q_path), len(p_path))):
+            if q_path[i] != p_path[i]:
+                return q_path[i - 1]
+            if i == len(q_path) - 1:
+                return q_path[-1]
+            elif i == len(p_path) - 1:
+                return p_path[-1]
+
+    def lowestCommonAncestor3(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        """
+        Binary Search Tree中的LCA的条件为p <= LCA <= q或者p <= LCA <= q
+        如果p, q < cur_node，则继续在左子树寻找；如果p, q > cur_node，则在右子树寻找
+
+        """
+        ancestor = root
+        while True:
+            if p.val < ancestor.val and q.val < ancestor.val:
+                ancestor = ancestor.left
+            elif p.val > ancestor.val and q.val > ancestor.val:
+                ancestor = ancestor.right
+            else:
+                break
+        return ancestor
