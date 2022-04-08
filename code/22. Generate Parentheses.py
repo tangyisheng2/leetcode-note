@@ -20,11 +20,11 @@ class Solution:
         dp[0] = [""]  # 初始化dp[0]
         for i in range(1, n + 1):  # 计算dp[i]
             for p in range(i):  # 遍历p
-                l1 = dp[p]  # 得到dp[p]的所有有效组合
-                l2 = dp[i - 1 - p]  # 得到dp[q]的所有有效组合
-                for k1 in l1:
-                    for k2 in l2:
-                        dp[i].append("({0}){1}".format(k1, k2))
+                inside_parentheses_list = dp[p]  # 得到dp[p]的所有有效组合，放在()内
+                outside_parentheses_list = dp[i - 1 - p]  # 得到dp[q]的所有有效组合，放在()右边
+                for inside_parentheses in inside_parentheses_list:
+                    for outside_parentheses in outside_parentheses_list:
+                        dp[i].append(f'({inside_parentheses}){outside_parentheses}')
 
         return dp[n]
 
