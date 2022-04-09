@@ -34,6 +34,7 @@ test = Solution()
 # ret = test.wordBreak(
 #     "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab",
 #     ["a", "aa", "aaa", "aaaa", "aaaaa", "aaaaaa", "aaaaaaa", "aaaaaaaa", "aaaaaaaaa", "aaaaaaaaaa"])
-ret = test.wordBreak("aaaaaaa",
-                     ["aaaa", "aaa"])
+# ret = test.wordBreak("aaaaaaa",
+#                      ["aaaa", "aaa"])
+ret = test.wordBreak2('leetcode', ['leet', 'code'])
 print(ret)
