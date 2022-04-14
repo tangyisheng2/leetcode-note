@@ -31,7 +31,7 @@ Constraints:
 All elements of candidates are distinct.
 1 <= target <= 500
 """
-
+from typing import List
 
 # class Solution:
 #     memo = {}
@@ -119,7 +119,6 @@ All elements of candidates are distinct.
 #                     shortestResult = combination
 #
 #         return shortestResult
-import collections
 
 
 class Solution:
@@ -146,30 +145,35 @@ class Solution:
             remainderResult = self.combinationSum(candidates, remainder)  # 较小尺寸的问题求解，remainderResult为
             self.memo[target] = remainderResult
             if remainderResult is not None:
-                for targetResult in remainderResult:    # 将targetResult中的数组展开
-                    targetResult.append(num)    # 将本层的操作添加到每一个targetResult中
+                for targetResult in remainderResult:  # 将targetResult中的数组展开
+                    targetResult.append(num)  # 将本层的操作添加到每一个targetResult中
                     if result is None:  # 将这种非None组合加入这一层的result
                         result = []
                     result.append(targetResult)  # 将所有处理完的solution存入一个数组，返回给上一层
         return result
 
-# # DFS
-# class Solution:
-#     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-#         def dfs(candidates, start_idx, target, current_stat ,ans):
-#             if target == 0:
-#                 ans.append(current_stat)
-#             if target < 0:
-#                 return
-#
-#             for i in range(start_idx, len(candidates)):
-#                 current_stat.append(candidates[i])
-#                 dfs(candidates, i, target - candidates[i], current_stat[:], ans)
-#                 current_stat.pop()
-#
-#         ans = []
-#         dfs(candidates, 0, target, [], ans)
-#         return ans
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        """
+        DFS
+        :param candidates:
+        :param target:
+        :return:
+        """
+
+        def dfs(candidates, start_idx, target, current_stat, ans):
+            if target == 0:
+                ans.append(current_stat)
+            if target < 0:
+                return
+
+            for i in range(start_idx, len(candidates)):
+                current_stat.append(candidates[i])
+                dfs(candidates, i, target - candidates[i], current_stat[:], ans)
+                current_stat.pop()
+
+        ans = []
+        dfs(candidates, 0, target, [], ans)
+        return ans
 
 test = Solution()
 ret = test.combinationSum([2, 3], 7)
