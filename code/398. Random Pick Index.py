@@ -6,7 +6,7 @@
 from typing import List
 
 
-class Solution2:
+class Solution0:
     def __init__(self, nums: List[int]):
         import collections
         self.pos = collections.defaultdict(list)
@@ -19,9 +19,6 @@ class Solution2:
 
 
 class Solution1:
-    """
-    水塘抽样：Reservoir sampling
-    """
 
     def __init__(self, nums: List[int]):
         self.nums = nums
@@ -37,6 +34,28 @@ class Solution1:
                     ans = i
         return ans
 
+
+class Solution2:
+    """
+    水塘抽样（多个）：Reservoir sampling
+    """
+
+    def __init__(self, nums: List[int]):
+        self.nums = nums
+
+    def pick(self, target: int, number: int = 0) -> List[int]:
+        import random
+        ans = []
+        for i, num in enumerate(self.nums):
+            if num == target:
+                if len(ans) < number:
+                    ans.append(i)
+                elif (r := random.randrange(i)) < number:
+                    ans[r] = i
+        return ans
+
 # Your Solution object will be instantiated and called as such:
-# obj = Solution(nums)
-# param_1 = obj.pick(target)
+# obj = Solution1(
+#     [1,2,3,3,3])
+# param_1 = obj.pick(3, 3)
+# print(param_1)
