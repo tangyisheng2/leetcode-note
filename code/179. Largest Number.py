@@ -20,9 +20,6 @@ class Solution(object):
         def compare(x, y):
             """
             将 xy 与 yx 比较大小
-            :param x:
-            :param y:
-            :return:
             """
             return int(y + x) - int(x + y)
 
