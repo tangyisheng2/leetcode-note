@@ -8,7 +8,6 @@ You must write an algorithm with O(log n) runtime complexity.
 Input: nums = [5,7,7,8,8,10], target = 8
 Output: [3,4]
 """
-import math
 from typing import List
 
 
@@ -58,34 +57,80 @@ from typing import List
 #                 mid = math.ceil((upper + low) * 0.5)
 #         return [-1, -1]  # 搜索失败
 
+# class Solution:
+#     def searchRange(self, nums: List[int], target: int) -> List[int]:
+#         def binarysearch(nums, target):
+#             lo = 0
+#             hi = len(nums) - 1
+#             while lo <= hi:
+#                 mid = (lo + hi) // 2
+#                 if nums[mid] > target:
+#                     hi = mid - 1
+#                 elif nums[mid] < target:
+#                     lo = mid + 1
+#                 else:
+#                     return mid
+#             return -1
+#
+#         idx = binarysearch(nums, target)
+#         if idx == -1:
+#             return [-1, -1]
+#         ptr_lo, ptr_hi = idx, idx
+#         while ptr_lo > 0 and nums[ptr_lo - 1] == target:
+#             ptr_lo -= 1
+#         while ptr_hi < len(nums) - 1 and nums[ptr_hi + 1] == target:
+#             ptr_hi += 1
+#         return [ptr_lo, ptr_hi]
+
 class Solution:
     def searchRange(self, nums: List[int], target: int) -> List[int]:
-        def binarysearch(nums, target):
+        def find_lower():
             lo = 0
             hi = len(nums) - 1
-            while lo <= hi:
-                mid = (lo + hi) // 2
-                if nums[mid] > target:
-                    hi = mid - 1
-                elif nums[mid] < target:
+
+            while lo < hi:
+                mid = (lo + hi) // 2  # 当只有两个元素的时候，我们取下边界（因为我们找的是下边界
+                if nums[mid] >= target:
+                    hi = mid
+                elif nums[mid] < target:  # nums[mid] <= target, since we need to lower boundary, move left
                     lo = mid + 1
-                else:
-                    return mid
+
+                # if nums[mid] < target:
+                #     lo = mid + 1
+                # else:
+                #     hi = mid
+
+                # elif nums[mid] == target:
+                #     hi = mid - 1
+
+            if nums[lo] == target:
+                return lo
             return -1
 
-        idx = binarysearch(nums, target)
-        if idx == -1:
-            return [-1, -1]
-        ptr_lo, ptr_hi = idx, idx
-        while ptr_lo > 0 and nums[ptr_lo - 1] == target:
-            ptr_lo -= 1
-        while ptr_hi < len(nums) - 1 and nums[ptr_hi + 1] == target:
-            ptr_hi += 1
-        return [ptr_lo, ptr_hi]
+        def find_upper():
+            lo = 0
+            hi = len(nums) - 1
 
+            while lo < hi:
+                mid = (lo + hi + 1) // 2
+                if nums[mid] <= target:
+                    lo = mid
+                else:
+                    hi = mid - 1
+
+            if nums[lo] == target:
+                return lo
+            return -1
+
+        lower = find_lower()
+        upper = find_upper()
+
+        if 0 < lower <= upper < len(nums):
+            return [lower, upper]
+        return [-1, -1]
 
 
 test = Solution()
-ret = test.searchRange([1, 2, 3], 3)
+ret = test.searchRange([5, 7, 7, 8, 8, 10], 6)
 print(ret)
 pass
