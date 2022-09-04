@@ -13,11 +13,11 @@ class Solution:
         """
         ans, n = 0, len(nums)
         for i in range(n):
-            minVal, maxVal = float('-inf'), float('int')
+            min_val, max_val = nums[i], nums[i]
             for j in range(i, n):
-                minVal = nums[j] if nums[j] < minVal else minVal
-                maxVal = nums[j] if nums[j] > maxVal else maxVal
-                ans += maxVal - minVal
+                min_val = nums[j] if nums[j] < min_val else min_val
+                max_val = nums[j] if nums[j] > max_val else max_val
+                ans += max_val - min_val
         return ans
 
     def subArrayRanges2(self, nums):
@@ -38,10 +38,10 @@ class Solution:
             # 分别检测单调栈，如果当前元素不大于/不小于栈顶元素
             # 则表示加入当前元素后，将替代之前栈顶元素所影响的子数组最小值/最大值
             # 同时，需要将被替代的子数组数量*子数组最值从总和中剔除
-            while minStack and cur <= minStack[-1][0]:
-                preMin, preMinCount = minStack.pop()
-                minCount += preMinCount
-                minSum -= preMin * preMinCount
+            while minStack and cur <= minStack[-1][0]:  # 单调递增栈单调行被破坏
+                preMin, preMinCount = minStack.pop()  # 获取之前的最小值和该最小值影响的速度
+                minCount += preMinCount  # 如果之前的数组也以当前元素作为最小值，这当前元素的影响数组个数加上以前元素的影响个数
+                minSum -= preMin * preMinCount  # minSun中去除之前最小值数组的影响并使用当前最小值进行重新计算
             while maxStack and cur >= maxStack[-1][0]:
                 preMax, preMaxCount = maxStack.pop()
                 maxCount += preMaxCount
@@ -58,3 +58,7 @@ class Solution:
             ans += maxSum - minSum  # 累加子数组范围和
 
         return ans
+
+
+test = Solution()
+test.subArrayRanges2(nums=[1, 2, 3])
