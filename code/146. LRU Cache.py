@@ -1,6 +1,3 @@
-import collections
-
-
 # class LRUCache:
 #
 #     def __init__(self, capacity: int):
@@ -145,6 +142,66 @@ class LRUCache:
 #         self.head.next = node  # 链表头指向第一个节点node
 #
 #         self.cache.update({key, node})
+
+
+class D_Linklist:
+    def __init__(self):
+        self.prev = None
+        self.key = None
+        self.val = None
+        self.next = None
+
+
+class LRUCache2:
+
+    def __init__(self, capacity: int):
+        self.max_capacity = capacity
+        self.capacity = 0
+        # For get in O(1), use hashmap
+        self.map = {}
+        # For modify order in O(1), use doubly linked list
+        self.head = D_Linklist()
+        self.tail = D_Linklist()
+        self.head.next = self.tail
+        self.tail.prev = self.head
+
+    def remove_node(self, node):
+        node.prev.next = node.next
+        node.next.prev = node.prev
+        return node
+
+    def insert_node_top(self, node):
+        node.next = self.head.next
+        self.head.next.prev = node
+        self.head.next = node
+        node.prev = self.head
+
+    def get(self, key: int) -> int:
+        if key in self.map:
+            node = self.map[key]
+            self.remove_node(node)
+            self.insert_node_top(node)
+            return node.val
+        else:
+            return -1
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.map:
+            node = self.map[key]
+            self.remove_node(node)
+            # Note that when we update a record, the current capacity does not change
+            self.capacity -= 1
+        new_node = D_Linklist()
+        new_node.key = key
+        new_node.val = value
+        self.insert_node_top(new_node)
+        self.map[key] = new_node
+        self.capacity += 1
+        if self.capacity > self.max_capacity:
+            node_to_remove = self.tail.prev
+            self.remove_node(node_to_remove)
+            del self.map[node_to_remove.key]
+            self.capacity -= 1
 
 
 def printLinkedlist(head):
