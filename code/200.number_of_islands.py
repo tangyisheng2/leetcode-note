@@ -1,28 +1,24 @@
+from typing import List
+
+
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
-        def isInArea(grid, x, y):
-            if (x >= 0 and x <= len(grid) and
-                    y >= 0 and y <= len(grid[1])):  # 判断是否越界
-                return True
-            else:
-                return False
+        def dfs(x, y):
+            grid[x][y] = '0'
 
-        def dfs(grid, x, y):
-            if (not isInArea()) or grid[x][y] != 1:  # 如果越界或者该地区不是陆地（包括0，以及2已经便利过的情况）
-                return
-            grid[x][y] = 2
-            dfs(grid, x + 1, y)
-            dfs(grid, x - 1, y)
-            dfs(grid, x, y + 1)
-            dfs(grid, x, y - 1)
+            for nx, ny in [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]:
+                if 0 <= nx < n and 0 <= ny < m and grid[nx][ny] == '1':
+                    dfs(nx, ny)
 
-        count = 0
-        for x in range(len(grid)):
-            for y in range(len(grid[1])):
-                if grid[x][y] == 1:
-                    count += 1
-                    dfs(grid, x, y)
-        return count
+        n = len(grid)
+        m = len(grid[0])
+        ans = 0
+        for i in range(n):
+            for j in range(m):
+                if grid[i][j] == '1':
+                    ans += 1
+                    dfs(i, j)
+        return ans
 
 
 test_case = Solution()
